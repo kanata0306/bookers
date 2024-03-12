@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <% if @book.errors.any? %>
+      <%= @book.errors.count %> error prohibited this obj from being saved:
+      
+      <ul>
+        <% @book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col-lg-5">
+      <h2>Editing Book</h2>
+
+      <%= form_with model: @book, url: book_path(@book), method: :patch do |f| %>
+        <div>
+          <%= f.label :title %><br>
+          <%= f.text_field :title %>
+        </div>
+
+        <div>
+          <%= f.label :body %><br>
+          <%= f.text_area :body %>
+        </div>
+
+        <%= f.submit "Update Book" %>
+      <% end %>
+
+      <%= link_to "Show", @book %> |
+      <%= link_to "Back", books_path %>
+    </div>
+  </div>
+</div>

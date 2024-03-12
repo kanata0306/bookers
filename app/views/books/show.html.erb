@@ -1,55 +1,62 @@
-<h2>User info</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <%= render 'book', books: @books %>
+    </div>
 
-<% if @user.image.attached? %>
-  <%= image_tag @user.image, size: "100x100" %>
-<% else %>
-  <%= image_tag 'default-image', size: "100x100" %>
-<% end %>
-
-<table>
-  <tr>
-    <th>name</th>
-    <th><%= current_user.name %></th>
-  </tr>
-  <tr>
-    <th>introduction</th>
-  </tr>
-</table>
-
-<%= button_to "Books", books_path %>
-
-<h2>New book</h2>
-<%= form_with model: Book.new do |f| %>
-  <h4>Title</h4>
-  <%= f.text_field :title %>
-
-  <h4>Opinion</h4>
-  <%= f.text_area :body %><br>
-
-  <%= f.submit 'Create Book' %>
-<% end %>
-
-<div>
-  <h2>Book detail</h2>
-  <table>
-    <thead>
-      <th>Title</th>
-      <th>Opinion</th>
-    </thead>
-    <tbody>
-      <% @books.each do |book| %>
-        <tr class="book">
-          <td>
-            <% if book.user && book.user.image.attached? %>
-              <%= image_tag book.user.image, size: "100x100" %>
-            <% else %>
-              <%= image_tag 'default-image', size: "100x100" %>
-            <% end %>
-          </td>
-          <td><%= link_to book.title, book_path(book) %></td>
-          <td><%= book.body %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <% if user_signed_in? %>
+      <div class="col-lg-9">
+        <h2>Book detail</h2>
+        <hr>
+        <table>
+          <thead>
+            <th>Title</th>
+            <th>Opinion</th>
+          </thead>
+          <tbody>
+            <tr class="book">
+              <td>
+                <% if @book.user && @book.user.image.attached? %>
+                  <%= image_tag @book.user.image, size: "100x100" %>
+                <% else %>
+                  <%= image_tag 'default-image', size: "100x100" %>
+                <% end %><br>
+                <%= @book.user.name if @book.user %>
+              </td>
+              <td><%= link_to @book.title, book_path(@book) %></td>
+              <td><%= @book.body %></td>
+              <% if current_user == @book.user %>
+                <td><%= button_to "Edit", edit_book_path(@book), method: :get, class: "btn btn-success" %></td>
+                <td><%= button_to "Destroy", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="col-lg-9">
+        <h2>Book detail</h2>
+        <table>
+          <thead>
+            <th>Title</th>
+            <th>Opinion</th>
+          </thead>
+          <tbody>
+            <tr class="book">
+              <td>
+                <% if @book.user && @book.user.image.attached? %>
+                  <%= image_tag @book.user.image, size: "100x100" %>
+                <% else %>
+                  <%= image_tag 'default-image', size: "100x100" %>
+                <% end %><br>
+                <%= @book.user.name if @book.user %>
+              </td>
+              <td><%= link_to @book.title, book_path(@book) %></td>
+              <td><%= @book.body %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
 </div>
