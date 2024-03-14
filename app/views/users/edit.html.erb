@@ -1,10 +1,7 @@
 <div class="container">
-  
   <div class="row">
-    
     <% if @user.errors.any? %>
       <%= @user.errors.count %> error prohibited this obj from being saved:
-      
       <ul>
         <% @user.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -12,19 +9,19 @@
       </ul>
     <% end %>
   </div>
-  
+
   <div class="col-lg-4">
     <h2>User info</h2>
 
-    <%= form_with model: current_user, url: user_path(current_user), method: :patch, html: { multipart: true } do |f| %>
+    <%= form_with model: @user, url: user_path(current_user), method: :patch, html: { multipart: true } do |f| %>
       <div>
         <%= f.label :name %><br>
         <%= f.text_field :name %>
       </div>
 
       <div>
-        <%= f.label :image %><br>
-        <%= f.file_field :image %>
+        <%= f.label :profile_image %><br>
+        <%= f.file_field :profile_image %>
       </div>
 
       <div>
@@ -34,6 +31,5 @@
 
       <%= f.submit "Update User", class: "btn btn-secondary" %>
     <% end %>
-
   </div>
 </div>

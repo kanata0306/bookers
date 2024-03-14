@@ -8,12 +8,13 @@ class UsersController < ApplicationController
   end
   
   def index
+    @user = current_user
     @users = User.includes(:books)
   end
 
   def edit
     if @user != current_user
-      redirect_to root_path, alert: "You are not authorized to edit this user."
+      redirect_to user_path(current_user), alert: "You are not authorized to edit this user."
     end
   end
 
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :introduction, :image)
+    params.require(:user).permit(:name, :introduction, :profile_image)
   end
 
   def set_user

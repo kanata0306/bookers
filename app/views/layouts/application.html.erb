@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bookers</title>
+  <title>Bookers2</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -18,11 +18,14 @@
         <div class="col-lg-1">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <%= link_to "Bookers", books_path, class: "nav-link text-white" %>
+              <% if user_signed_in? %>
+                <%= link_to "Bookers", books_path, class: "nav-link text-white" %>
+              <% else %>
+                <%= link_to "Bookers", root_path, class: "nav-link text-white" %>
+              <% end %>
             </li>
           </ul>
         </div>
-        
 
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <% if user_signed_in? %>
@@ -43,7 +46,7 @@
             </li>
             <li class="nav-item">
               <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do %>
-                <i class="fa-solid fa-right-to-bracket"></i> Log out
+                <i class="fa-solid fa-right-from-bracket"></i> Log out
               <% end %>
             </li>
           <% else %>
@@ -72,6 +75,7 @@
       </div>
     </nav>
   </header>
+
   <% flash.each do |key, message| %>
     <div class="alert alert-<%= key %>">
       <%= message %>

@@ -1,5 +1,5 @@
-class AddIntroductionToUsers < ActiveRecord::Migration[6.1]
+class AddProfileImageToUsers < ActiveRecord::Migration[6.0]
   def change
-    add_column :users, :introduction, :text
+    add_column :users, :profile_image, :string
   end
 end

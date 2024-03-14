@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
 
   def new
     @book = current_user.books.build
@@ -10,30 +10,32 @@ class BooksController < ApplicationController
     if @book.save
       redirect_to book_path(@book), notice: "Book was successfully created."
     else
+      @user = current_user
       @books = Book.all
       render 'index' 
     end
   end
   
   def index
-      @books = Book.all
+    @user = current_user
+    @books = Book.all
   end
 
   def show
+    
     @book = Book.find_by(id: params[:id])
+    @user = User.find_by(id: @book.user_id)
     if @book.nil?
       redirect_to books_path, alert: "Book not found."
     end
   end
   
   def edit
-  @book = Book.find_by(id: params[:id])
-  if @book.nil? || @book.user != current_user
-    redirect_to books_path, alert: "Book not found or you don't have permission to edit this book."
+    @book = Book.find_by(id: params[:id])
+    if @book.nil? || @book.user != current_user
+      redirect_to books_path, alert: "Book not found or you don't have permission to edit this book."
+    end
   end
-  end
-　
-
 
   def update
     @book = Book.find_by(id: params[:id])
